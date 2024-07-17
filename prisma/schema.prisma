@@ -18,3 +18,27 @@ model Post {
 
     @@index([name])
 }
+
+model User {
+  id                Int       @id @default(autoincrement())
+  email             String    @unique
+  password          String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  selectedCategories UserCategory[]
+}
+
+model Category {
+  id        Int     @id @default(autoincrement())
+  name      String
+  users     UserCategory[]
+}
+
+model UserCategory {
+  userId    Int
+  categoryId Int
+  user      User    @relation(fields: [userId], references: [id])
+  category  Category @relation(fields: [categoryId], references: [id])
+
+  @@id([userId, categoryId])
+}
