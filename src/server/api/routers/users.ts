@@ -1,4 +1,4 @@
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, publicProcedure, privateProcedure } from "@/server/api/trpc";
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -67,10 +67,34 @@ export const userRouter = createTRPCRouter({
       const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
 
       return { token };
+    }),
+
+    categories: privateProcedure
+    .input(z.object({
+      page: z.number().default(1),
+      limit: z.number().default(6),
+    }))
+    .query(async ({ input, ctx }) => {
+      const { page, limit } = input;
+
+      const categories = await ctx.db.category.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+      });
+      const totalCategories = await ctx.db.category.count();
+      const user = await ctx.db.user.findUnique({
+        where: { id: ctx.userId  },
+        include: { selectedCategories: true },
+      });
+      return {
+        categories,
+        totalPages: Math.ceil(totalCategories / limit),
+        selectedCategories: user?.selectedCategories.map(category => category.categoryId) || [],
+      };
     })
+  })
 
-});
-
+// })
   // .middleware(async ({ ctx, next }) => {
   //   const { authorization } = ctx.req.headers;
 
