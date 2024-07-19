@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { Header } from "@/app/_components/header";
 
 export const metadata: Metadata = {
   title: "Roc8 Ecommerce",
@@ -17,7 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
+      <main className="flex min-h-screen flex-col items-center">
+      <Header />
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        </main>
       </body>
     </html>
   );
