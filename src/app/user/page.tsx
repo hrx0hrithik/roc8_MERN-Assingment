@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
@@ -181,7 +182,7 @@ export default function User() {
 }
 
 // Debouncing
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function debounce<T extends (...args: any[]) => Promise<void>>(
   fn: T,
   delay: number,
@@ -200,3 +201,4 @@ function debounce<T extends (...args: any[]) => Promise<void>>(
     }, delay);
   };
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

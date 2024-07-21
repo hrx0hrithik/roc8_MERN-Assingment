@@ -27,9 +27,9 @@ export default function Home() {
       setEmail(email);
       setPassword(password);
       router.push('login')
-      localStorage.removeItem('signupData'); // Clear data after retrieving
+      localStorage.removeItem('signupData'); 
     } else {
-      router.push('/'); // Redirect if no data
+      router.push('/'); 
     }
   }, [router]);
 

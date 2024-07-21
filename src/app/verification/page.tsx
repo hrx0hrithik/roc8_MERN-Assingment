@@ -42,8 +42,8 @@ export default function Verification() {
   }
 
   const maskEmail = (email: string) => {
-    let [local, domain] = email.split('@');
-    let maskedLocal = local?.substring(0, 3) + '***';
+    const [local, domain] = email.split('@');
+    const maskedLocal = local?.substring(0, 3) + '***';
     return `${maskedLocal}@${domain}`;
   };
 
