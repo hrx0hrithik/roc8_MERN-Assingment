@@ -6,7 +6,7 @@ import {
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { sendOtpEmail } from "@/app/api/send/route";
+import { sendOtpEmail } from "@/app/api/route";
 import { TRPCError } from "@trpc/server";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
