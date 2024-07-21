@@ -15,6 +15,7 @@ const config = {
   "rules": {
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
     "react/no-unescaped-entities": "off",
     "@next/next/no-page-custom-font": "off",
     "@typescript-eslint/consistent-type-imports": [
