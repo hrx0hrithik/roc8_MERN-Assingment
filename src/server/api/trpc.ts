@@ -9,8 +9,11 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 import { db } from "@/server/db";
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 /**
  * 1. CONTEXT
@@ -25,8 +28,21 @@ import { db } from "@/server/db";
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
+  const token = opts.headers.get('Authorization')?.split(' ')[1]
+
+  let user: JwtPayload | null = null
+
+  if(token) {
+    try {
+      const decodedToken = jwt.verify(token, JWT_SECRET) as JwtPayload;
+      user = decodedToken;
+    } catch (error) {
+      console.error('Invalid token', error)
+    }
+  }
   return {
     db,
+    user,
     ...opts,
   };
 };
@@ -81,18 +97,16 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 
-// const isAuthed = t.middleware(async({ ctx, next }) => {
-//   const { authorization } = ctx.req.headers
-//   const token = headers
-//   if (!token) throw new TRPCError({ code: 'UNAUTHORIZED'})
-//   return next({
-//     ctx: {
-//       // payload,
-//     },
-//   })
-// })
+export const isAuthed = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+  return next({
+    ctx: {
+      user: ctx.user,
+    },
+  });
+});
 
-
-// export const privateProcedure = t.procedure.use(isAuthed);
-export const privateProcedure = t.procedure;
+export const privateProcedure = t.procedure.use(isAuthed);
 export const publicProcedure = t.procedure;
