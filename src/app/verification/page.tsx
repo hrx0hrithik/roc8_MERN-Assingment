@@ -1,7 +1,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { api } from "@/trpc/react";
-import { ChangeEvent, FormEvent, useEffect, useState, useCallback, KeyboardEvent } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState, useCallback, KeyboardEvent, Suspense } from "react";
 
 export default function Verification() {
   const [otp, setOtp] = useState<string>(""); 
@@ -81,6 +81,7 @@ export default function Verification() {
   };
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <main className="mx-auto mb-6 pt-10">
       <div className="flex h-[453px] w-[576px] flex-col rounded-[20px] border p-10">
         <div className="text-center text-[32px] font-semibold">
@@ -113,5 +114,6 @@ export default function Verification() {
         </form>
       </div>
     </main>
+    </Suspense>
   );
 }
