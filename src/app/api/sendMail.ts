@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 
 export async function sendOtpEmail(name: string, email: string, otp: string) {
@@ -25,8 +26,9 @@ export async function sendOtpEmail(name: string, email: string, otp: string) {
       .setText(`Hello ${name},\n\nYour OTP code is: ${otp}\n\nThank you!`);
 
     await mailerSend.email.send(emailParams);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error sending OTP email:', error);
-    throw new Error(error.message || 'An error occurred while sending the email');
+    throw new Error(error.message ?? 'An error occurred while sending the email');
   }
 }

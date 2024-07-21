@@ -181,6 +181,7 @@ export default function User() {
 }
 
 // Debouncing
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function debounce<T extends (...args: any[]) => Promise<void>>(
   fn: T,
   delay: number,

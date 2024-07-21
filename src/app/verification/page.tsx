@@ -4,10 +4,10 @@ import { api } from "@/trpc/react";
 import { ChangeEvent, FormEvent, useEffect, useState, useCallback, KeyboardEvent } from "react";
 
 export default function Verification() {
-  const [otp, setOtp] = useState<string>(""); // 8 digit OTP
+  const [otp, setOtp] = useState<string>(""); 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || ""; // Default to empty string if undefined
+  const email = searchParams.get("email") ?? ""; 
   const verifyOtp = api.user.verifyOtp.useMutation();
   const signupUser = api.user.signup.useMutation();
 
@@ -26,9 +26,9 @@ export default function Verification() {
       });
       if (result.verified) {
         await signupUser.mutateAsync({
-          name: result.user?.name || "",
+          name: result.user?.name ?? "",
           email: email,
-          password: result.user?.password || "",
+          password: result.user?.password ?? "",
           categories: [],
         });
         router.push("/login");
@@ -63,7 +63,7 @@ export default function Verification() {
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     const pastedValue = e.clipboardData.getData("text").replace(/\D/g, "");
-    const otpArray = Array.from({ length: 8 }, (_, i) => pastedValue[i] || ""); // Ensure we have an array of 8 elements
+    const otpArray = Array.from({ length: 8 }, (_, i) => pastedValue[i] ?? ""); // Ensure we have an array of 8 elements
     
     setOtp(otpArray.join(""));
 
@@ -96,7 +96,7 @@ export default function Verification() {
                 className="w-12 h-12 text-center text-2xl border rounded-md border-gray-300 focus:border-black focus:outline-none"
                 type="text"
                 maxLength={1}
-                value={otp[index] || ""}
+                value={otp[index] ?? ""}
                 onChange={(e) => handleOtpChange(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 onPaste={handlePaste}

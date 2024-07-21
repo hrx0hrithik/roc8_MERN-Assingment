@@ -35,6 +35,7 @@ export const userRouter = createTRPCRouter({
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const userCategories: any[] = categories.map((categoryId) => ({
         id: categoryId,
       }));
