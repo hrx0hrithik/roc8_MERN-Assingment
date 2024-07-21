@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 import { sendOtpEmail } from "@/app/api/sendMail";
 import { TRPCError } from "@trpc/server";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+const JWT_SECRET = process.env.JWT_SECRET ?? "your_secret_key";
 const pendingSignups = new Map();
 
 export const userRouter = createTRPCRouter({

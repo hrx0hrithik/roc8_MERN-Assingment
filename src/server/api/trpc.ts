@@ -13,7 +13,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 
 import { db } from "@/server/db";
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET ?? 'your-secret-key';
 
 /**
  * 1. CONTEXT
