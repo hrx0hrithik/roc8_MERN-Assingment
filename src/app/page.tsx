@@ -3,7 +3,12 @@
 import { api } from "@/trpc/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, SetStateAction, useEffect, useState } from "react";
+interface SignupData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 export default function Home() {
   const [name, setName] = useState<string>('');
